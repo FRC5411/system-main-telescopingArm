@@ -1,0 +1,26 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "telemetry": {
+        "Arm": {
+          "open": true,
+          "stage1": {
+            "open": true
+          }
+        },
+        "open": true,
+        "telescope": {
+          "open": true,
+          "stage1": {
+            "open": true
+          }
+        }
+      }
+    }
+  }
+}

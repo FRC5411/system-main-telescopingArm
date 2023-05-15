@@ -1,13 +1,6 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.Subsystems;
-
 import java.util.function.DoubleSupplier;
-
 import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Libs.Configs;
@@ -15,6 +8,7 @@ import frc.robot.Libs.ProfilePIDController;
 import frc.robot.Libs.ScaledArmFeedForward;
 import frc.robot.Libs.TProfile;
 import frc.robot.Libs.Telemetry;
+import frc.robot.Constants.*;
 
 public class Arm extends SubsystemBase {
   private CANSparkMax armMotor;
@@ -26,9 +20,13 @@ public class Arm extends SubsystemBase {
     armMotor = Configs.NEO(armMotor, 12, false);
     armEncoder = Configs.AbsEncbore(armEncoder, 0, 2*Math.PI);
 
-    armPID = new ProfilePIDController(0, 0, 0, new TProfile.Constraints(0, 0));
+    armPID = new ProfilePIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD, 
+    new TProfile.Constraints(ArmConstants.MAXVELOCITY, ArmConstants.MAXACCELERATION));
 
-    armFF = new ScaledArmFeedForward(0, 0, 0, 0);
+    armPID.setTolerance(0.1);
+    armPID.enableContinuousInput(-Math.PI, Math.PI);
+
+    armFF = new ScaledArmFeedForward(ArmConstants.KS, ArmConstants.KG, ArmConstants.KV, ArmConstants.KA);
   }
 
   public double armCalc(DoubleSupplier setpointRadians, DoubleSupplier scale) {

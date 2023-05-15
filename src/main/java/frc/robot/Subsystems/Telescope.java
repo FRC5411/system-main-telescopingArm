@@ -21,9 +21,10 @@ public class Telescope extends SubsystemBase {
 
     telescopeEncoder = Configs.relativeEncbore(telescopeEncoder, 5, 6, TelescopeConstants.METERPERROTATION);
 
-    telescopePID = new ProfilePIDController(0, 0, 0, new TProfile.Constraints(0, 0));
+    telescopePID = new ProfilePIDController(TelescopeConstants.KP, TelescopeConstants.KI, TelescopeConstants.KD, 
+    new TProfile.Constraints(TelescopeConstants.MAXVELOCITY, TelescopeConstants.MAXACCELERATION));
 
-    telescopeFF = new AngledElevatorFeedForward(0, 0, 0, 0);
+    telescopeFF = new AngledElevatorFeedForward(TelescopeConstants.KS, TelescopeConstants.KG, TelescopeConstants.KV, TelescopeConstants.KA);
   }
 
   public double telescopeCalc(DoubleSupplier setpointMeters, DoubleSupplier thetaRadians) {

@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Telescope;
 
@@ -8,6 +9,7 @@ public class TelescopeCommand extends CommandBase {
   private DoubleSupplier setpoint;
   private DoubleSupplier theta;
   private Telescope telescope;
+  private double temp;
 
 
   public TelescopeCommand(DoubleSupplier setpoint, DoubleSupplier theta, Telescope telescope) {
@@ -26,7 +28,9 @@ public class TelescopeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    telescope.setTelescope(telescope.telescopeCalc(setpoint, theta));
+    temp = telescope.telescopeCalc(setpoint, theta);
+    telescope.setTelescope(temp);
+    SmartDashboard.putNumber("telescopeCalc", temp);
   }
 
   // Called once the command ends or is interrupted.

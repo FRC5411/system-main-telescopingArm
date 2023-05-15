@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Arm;
 
@@ -8,6 +9,7 @@ public class ArmCommand extends CommandBase {
   private DoubleSupplier setpointRadians;
   private DoubleSupplier scale;
   private Arm arm;
+  private double temp;
 
 
   public ArmCommand(DoubleSupplier setpointRadians, DoubleSupplier scale, Arm arm) {
@@ -26,7 +28,9 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setArm(arm.armCalc(setpointRadians, scale));
+    temp = arm.armCalc(setpointRadians, scale);
+    arm.setArm(temp);
+    SmartDashboard.putNumber("armCalc", temp);
   }
 
   // Called once the command ends or is interrupted.

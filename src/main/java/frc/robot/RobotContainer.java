@@ -23,22 +23,22 @@ public class RobotContainer {
 
     mController = new CommandXboxController(0);
 
-    arm.setDefaultCommand(new ArmCommand(arm.getArmEncoderRadians(),
-    telescope.getScale(), 
-    arm));
+    // arm.setDefaultCommand(new ArmCommand(arm.getArmEncoderRadians(),
+    // telescope.getScale(), 
+    // arm));
 
-    telescope.setDefaultCommand(new TelescopeCommand(telescope.getTelescopeEncoderMeters(),
-    arm.getArmEncoderRadians(),
-    telescope));
+    // telescope.setDefaultCommand(new TelescopeCommand(telescope.getTelescopeEncoderMeters(),
+    // arm.getArmEncoderRadians(),
+    // telescope));
 
     configureBindings();
   }
 
   private void configureBindings() {
-    click(mController.y(), armManager.goToPosPolar(TelescopeConstants.MAX_LENGTH, 90.0));
-    click(mController.b(), armManager.goToPosPolar(TelescopeConstants.MAX_LENGTH, 0));
-    click(mController.x(), armManager.goToPosPolar(TelescopeConstants.MAX_LENGTH, 180.0));
-    click(mController.a(), armManager.goToPosPolar(TelescopeConstants.MIN_LENGTH, 270.0));
+    // click(mController.y(), armManager.goToPosPolar(TelescopeConstants.MAX_LENGTH, 90.0));
+    // click(mController.b(), armManager.goToPosPolar(TelescopeConstants.MAX_LENGTH, 0));
+    // click(mController.x(), armManager.goToPosPolar(TelescopeConstants.MAX_LENGTH, 180.0));
+    // click(mController.a(), armManager.goToPosPolar(TelescopeConstants.MIN_LENGTH, 270.0));
   }
 
   public void click(Trigger button, Command command, Command command2) {

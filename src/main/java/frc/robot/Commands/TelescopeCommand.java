@@ -1,8 +1,7 @@
 package frc.robot.Commands;
 import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Libs.Telemetry;
 import frc.robot.Subsystems.Telescope;
 
 public class TelescopeCommand extends CommandBase {
@@ -30,7 +29,7 @@ public class TelescopeCommand extends CommandBase {
   public void execute() {
     temp = telescope.telescopeCalc(setpoint, theta);
     telescope.setTelescope(temp);
-    SmartDashboard.putNumber("telescopeCalc", temp);
+    Telemetry.setValue("temp", temp);
   }
 
   // Called once the command ends or is interrupted.

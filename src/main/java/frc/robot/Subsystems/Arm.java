@@ -31,9 +31,9 @@ public class Arm extends SubsystemBase {
 
   public double armCalc(DoubleSupplier setpointRadians, DoubleSupplier scale) {
     double FF = setArmFF(scale);
-
+    Telemetry.setValue("Arm/stage1/FF", FF);
     double PID = setArmPID(setpointRadians);
-
+    Telemetry.setValue("Arm/stage1/PID", PID);
     return FF + PID;
   }
 
@@ -48,6 +48,7 @@ public class Arm extends SubsystemBase {
   public void resetArmProfile(double pos) {
     armPID.reset(pos);
   }
+
   public void setArm(double voltage) {
     armMotor.setVoltage(voltage);
   }
@@ -66,10 +67,10 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Telemetry.setValue("Arm/stage1/setpoint", armMotor.get());
-    Telemetry.setValue("Arm/stage1/temperature", armMotor.getMotorTemperature());
-    Telemetry.setValue("Arm/stage1/outputVoltage", armMotor.getAppliedOutput());
-    Telemetry.setValue("Arm/stage1/statorCurrent", armMotor.getOutputCurrent());
-    Telemetry.setValue("Arm/stage1/actualPosition", Math.toDegrees(armEncoder.getAbsolutePosition()));
+    Telemetry.setValue("Arm/setpoint", armMotor.get());
+    Telemetry.setValue("Arm/temperature", armMotor.getMotorTemperature());
+    Telemetry.setValue("Arm/outputVoltage", armMotor.getAppliedOutput());
+    Telemetry.setValue("Arm/statorCurrent", armMotor.getOutputCurrent());
+    Telemetry.setValue("Arm/actualPosition", Math.toDegrees(armEncoder.getAbsolutePosition()));
   }
 }

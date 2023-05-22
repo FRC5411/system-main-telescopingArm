@@ -43,10 +43,10 @@ public class ArmManager extends SubsystemBase {
 
 
   public ParallelCommandGroup goToPosPolar(double magnitude, double thetaDegrees) {
-    return new ParallelCommandGroup(new ArmCommand(() -> magnitude,
+    return new ParallelCommandGroup(new ArmCommand(() -> Math.toRadians(thetaDegrees),
     telescope.getScale(),
     arm),
-    new TelescopeCommand(() -> Math.toDegrees(thetaDegrees),
+    new TelescopeCommand(() -> magnitude,
     arm.getArmEncoderRadians(),
     telescope));
   }

@@ -55,7 +55,7 @@ public class ScaledArmFeedForward {
   public double calculate(
       double positionRadians, double velocityRadPerSec, double accelRadPerSecSquared, double scale) {
     return ks * Math.signum(velocityRadPerSec)
-        + kg * Math.cos(positionRadians) * scale
+        + kg * Math.cos(positionRadians) //* scale
         + kv * velocityRadPerSec
         + ka * accelRadPerSecSquared;
   }

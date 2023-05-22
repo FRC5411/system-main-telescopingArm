@@ -4,8 +4,8 @@ public final class Constants {
     public class TelescopeConstants {
         // Physical arm details
         public static final double GEAR_RATIO = 0;
-        public static final double MAX_LENGTH = 0;
-        public static final double MIN_LENGTH = 0;
+        public static final double MAX_LENGTH = 10;
+        public static final double MIN_LENGTH = 1;
         public static final double METERPERROTATION = 1;
         public static final double ConversionFactorMeters = GEAR_RATIO * METERPERROTATION;
         public static final double XOFFSET  = 0;

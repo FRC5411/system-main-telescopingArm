@@ -1,8 +1,7 @@
 package frc.robot.Commands;
 import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Libs.Telemetry;
 import frc.robot.Subsystems.Arm;
 
 public class ArmCommand extends CommandBase {
@@ -30,7 +29,7 @@ public class ArmCommand extends CommandBase {
   public void execute() {
     temp = arm.armCalc(setpointRadians, scale);
     arm.setArm(temp);
-    SmartDashboard.putNumber("armCalc", temp);
+    Telemetry.setValue("armCalc", temp);
   }
 
   // Called once the command ends or is interrupted.

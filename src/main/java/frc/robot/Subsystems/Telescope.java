@@ -69,10 +69,10 @@ public class Telescope extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Telemetry.setValue("telescope/stage1/setpoint", telescopeMotor.get());
-    Telemetry.setValue("telescope/stage1/temperature", telescopeMotor.getMotorTemperature());
-    Telemetry.setValue("telescope/stage1/outputVoltage", telescopeMotor.getAppliedOutput());
-    Telemetry.setValue("telescope/stage1/statorCurrent", telescopeMotor.getOutputCurrent());
-    Telemetry.setValue("telescope/stage1/actualPosition", Math.toDegrees(telescopeEncoder.getDistance()));
+    Telemetry.setValue("telescope/setpoint", telescopeMotor.get());
+    Telemetry.setValue("telescope/temperature", telescopeMotor.getMotorTemperature());
+    Telemetry.setValue("telescope/outputVoltage", telescopeMotor.getAppliedOutput());
+    Telemetry.setValue("telescope/statorCurrent", telescopeMotor.getOutputCurrent());
+    Telemetry.setValue("telescope/actualPosition", Math.toDegrees(telescopeEncoder.getDistance()));
   }
 }

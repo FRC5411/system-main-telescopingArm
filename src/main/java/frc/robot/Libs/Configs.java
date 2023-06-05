@@ -1,10 +1,7 @@
 package frc.robot.Libs;
-import com.ctre.phoenixpro.configs.MotionMagicConfigs;
-import com.ctre.phoenixpro.configs.TalonFXConfiguration;
-import com.ctre.phoenixpro.configs.TalonFXConfigurator;
-import com.ctre.phoenixpro.hardware.TalonFX;
-import com.ctre.phoenixpro.signals.InvertedValue;
-import com.ctre.phoenixpro.signals.NeutralModeValue;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -47,48 +44,15 @@ public class Configs {
         return encoder;
     }
 
-    public static TalonFX ProDriveFX(TalonFX motor, double DRIVE_kP, double DRIVE_kS, InvertedValue invert) {
-        TalonFXConfigurator configer = motor.getConfigurator();
-        TalonFXConfiguration config = new TalonFXConfiguration();
-
-        config.Slot0.kP = DRIVE_kP;
-        config.Slot0.kS = DRIVE_kS;
-        config.CurrentLimits.StatorCurrentLimitEnable = true;        
-        config.CurrentLimits.StatorCurrentLimit = 60;
-        config.Voltage.PeakForwardVoltage = 12;
-        config.Voltage.PeakReverseVoltage = -12;
-        config.MotorOutput.Inverted = invert;
-        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
-        configer.apply(config.Slot0);
-        configer.apply(config.CurrentLimits);
-        configer.apply(config.Voltage);
-        configer.apply(config.MotorOutput);
-        configer.apply(config.MotionMagic);
-
+    public static WPI_TalonSRX SRX(WPI_TalonSRX motor, int deviceID, boolean inverted) {
+        motor = new WPI_TalonSRX(deviceID);
+        motor.configFactoryDefault();
+        motor.setInverted(inverted);
+        motor.setNeutralMode(NeutralMode.Brake);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
+        motor.configContinuousCurrentLimit(35);
+        motor.configPeakCurrentLimit(40);
+        motor.configPeakCurrentDuration(100);
         return motor;
     }
-
-    public static TalonFX ProAzimuthFX (TalonFX motor, double DRIVE_kP, double DRIVE_kD, double DRIVE_kS, InvertedValue invert, MotionMagicConfigs profile) {
-        TalonFXConfigurator configer = motor.getConfigurator();
-        TalonFXConfiguration config = new TalonFXConfiguration();
-
-        config.Slot0.kP = DRIVE_kP;
-        config.Slot0.kS = DRIVE_kS;
-        config.CurrentLimits.StatorCurrentLimitEnable = true;        
-        config.CurrentLimits.StatorCurrentLimit = 60;
-        config.Voltage.PeakForwardVoltage = 12;
-        config.Voltage.PeakReverseVoltage = -12;
-        config.MotorOutput.Inverted = invert;
-        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        config.MotionMagic = profile;
-
-        configer.apply(config.Slot0);
-        configer.apply(config.CurrentLimits);
-        configer.apply(config.Voltage);
-        configer.apply(config.MotorOutput);
-        configer.apply(config.MotionMagic);
-
-        return motor;
-      }
 }

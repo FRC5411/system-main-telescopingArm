@@ -1,6 +1,6 @@
 package frc.robot.Subsystems;
 import java.util.function.DoubleSupplier;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Libs.Configs;
@@ -11,21 +11,13 @@ import frc.robot.Libs.Telemetry;
 import frc.robot.Constants.*;
 
 public class Arm extends SubsystemBase {
-  private CANSparkMax armMotor;
+  private WPI_TalonSRX armMotor;
   private DutyCycleEncoder armEncoder;
   private ProfilePIDController armPID;
   private ScaledArmFeedForward armFF;
 
   public Arm() {
-    armMotor = Configs.NEO(armMotor, 12, false);
-    armEncoder = Configs.AbsEncbore(armEncoder, 0, 2*Math.PI);
-
-    armPID = new ProfilePIDController(ArmConstants.KP, ArmConstants.KI, ArmConstants.KD, 
-    new TProfile.Constraints(ArmConstants.MAXVELOCITY, ArmConstants.MAXACCELERATION));
-
-    armPID.setTolerance(0.1);
-    armPID.enableContinuousInput(-Math.PI, Math.PI);
-
+    armMotor = Configs.SRX(armMotor, 12, false);
     armFF = new ScaledArmFeedForward(ArmConstants.KS, ArmConstants.KG, ArmConstants.KV, ArmConstants.KA);
   }
 
@@ -41,16 +33,8 @@ public class Arm extends SubsystemBase {
     return armFF.calculate(getProfile().position, getProfile().velocity, getProfile().acceleration, scale.getAsDouble());
   }
 
-  public double setArmPID(DoubleSupplier setpoint) {
-    return armPID.calculate(setpoint.getAsDouble(), getArmEncoderRadians().getAsDouble());
-  }
-
-  public void resetArmProfile(double pos) {
-    armPID.reset(pos);
-  }
-
   public void setArm(double voltage) {
-    armMotor.setVoltage(voltage);
+    armMotor.set(ControlMode.Position);
   }
 
   public DoubleSupplier getArmEncoderRadians() {
@@ -66,11 +50,5 @@ public class Arm extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    Telemetry.setValue("Arm/setpoint", armMotor.get());
-    Telemetry.setValue("Arm/temperature", armMotor.getMotorTemperature());
-    Telemetry.setValue("Arm/outputVoltage", armMotor.getAppliedOutput());
-    Telemetry.setValue("Arm/statorCurrent", armMotor.getOutputCurrent());
-    Telemetry.setValue("Arm/actualPosition", Math.toDegrees(armEncoder.getAbsolutePosition()));
-  }
+  public void periodic() {}
 }

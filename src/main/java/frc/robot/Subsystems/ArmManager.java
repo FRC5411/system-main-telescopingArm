@@ -15,14 +15,14 @@ public class ArmManager extends SubsystemBase {
   }
 
 
-  public double[] armKinematicss(double x, double y) {
+  public double[] armKinematics(double x, double y) {
     double armX = x - TelescopeConstants.XOFFSET;
     double armY = y - TelescopeConstants.YOFFSET;
 
-    double theta = Math.atan2(armY, armX);
+    double thetaRadians = Math.atan2(armY, armX);
     double magnitude = Math.hypot(armX, armY);
 
-    double[] polarVals = {magnitude, theta};
+    double[] polarVals = {magnitude, thetaRadians};
 
     if(magnitude > TelescopeConstants.MAX_LENGTH) {
       polarVals[0] = TelescopeConstants.MAX_LENGTH;
@@ -31,17 +31,15 @@ public class ArmManager extends SubsystemBase {
     return polarVals;
   }
 
+  // x,  y version
   public ParallelCommandGroup goToPos(double x, double y) {
-    double[] polarVals = armKinematicss(x, y);
-    return new ParallelCommandGroup(new ArmCommand(() -> polarVals[0],
-    telescope.getScale(),
-    arm),
-    new TelescopeCommand(() -> polarVals[1],
-    arm.getArmEncoderRadians(),
-    telescope));
+    double[] polarVals = armKinematics(x, y);
+    return goToPosPolar(polarVals[0], Math.toDegrees(polarVals[1]));
   }
 
-
+  // Uses degrees as its better for human interaction, while radians is better for the lower level
+  // Parallel Command Group is used to run both the arm and telescope at the same time, but my Feedforwards
+  // May not account for higher level dynamics, so if control prove difficults switch to a sequential command group
   public ParallelCommandGroup goToPosPolar(double magnitude, double thetaDegrees) {
     return new ParallelCommandGroup(new ArmCommand(() -> Math.toRadians(thetaDegrees),
     telescope.getScale(),

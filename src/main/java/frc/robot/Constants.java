@@ -11,6 +11,8 @@ public final class Constants {
         public static final double XOFFSET  = 0;
         public static final double YOFFSET = 0;
 
+
+        // ALL CONSTANTS SUCK, DO NOT USE THEM ONLY FOR TESTING PURPOSES
         // PID constants
         public static final double KP = 1;
         public static final double KI = 0;
@@ -31,6 +33,7 @@ public final class Constants {
         // Physical arm details
         public static final double GEAR_RATIO = 0;        
 
+        // ALL CONSTANTS SUCK DO NOT USE THEM ONLY FOR TESTING PURPOSES
         // PID constants
         public static final double KP = 1;
         public static final double KI = 0;

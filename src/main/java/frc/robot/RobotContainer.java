@@ -7,31 +7,31 @@ import frc.robot.Commands.ArmCommand;
 import frc.robot.Commands.TelescopeCommand;
 import frc.robot.Constants.TelescopeConstants;
 import frc.robot.Subsystems.Arm;
-import frc.robot.Subsystems.ArmManager;
+import frc.robot.Subsystems.TelescopicArmManager;
 import frc.robot.Subsystems.Telescope;
 
 public class RobotContainer {
   private final Arm arm;
   private final Telescope telescope;
-  private final ArmManager armManager;
+  private final TelescopicArmManager telescopingArmManager;
   private final CommandXboxController mController;
 
   public RobotContainer() {
     arm = new Arm();
     telescope = new Telescope();
-    armManager = new ArmManager(arm, telescope);
+    telescopingArmManager = new TelescopicArmManager(arm, telescope);
 
     mController = new CommandXboxController(0);
 
     arm.setDefaultCommand(
       new ArmCommand(
-        () -> armManager.getArmSetpointRadians(),
+        () -> telescopingArmManager.getArmSetpointRadians(),
         telescope.getScale(), 
         arm));
 
     telescope.setDefaultCommand(
       new TelescopeCommand(
-        () -> armManager.getTelescopeSetpointMeters(),
+        () -> telescopingArmManager.getTelescopeSetpointMeters(),
         arm.getArmEncoderRadians(),
         telescope));
 
@@ -40,10 +40,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     // If the arm is built make sure that the arm doesnt breakt the robot and that the encoders are set up properply
-    click(mController.y(), armManager.goToPosPolar(TelescopeConstants.kMaxLength, 90.0));
-    click(mController.b(), armManager.goToPosPolar(TelescopeConstants.kMaxLength, 0));
-    click(mController.x(), armManager.goToPosPolar(TelescopeConstants.kMaxLength, 180.0));
-    click(mController.a(), armManager.goToPosPolar(TelescopeConstants.kMinLength, 270.0));
+    click(mController.y(), telescopingArmManager.goToPosPolar(TelescopeConstants.kMaxLength, 90.0));
+    click(mController.b(), telescopingArmManager.goToPosPolar(TelescopeConstants.kMaxLength, 0));
+    click(mController.x(), telescopingArmManager.goToPosPolar(TelescopeConstants.kMaxLength, 180.0));
+    click(mController.a(), telescopingArmManager.goToPosPolar(TelescopeConstants.kMinLength, 270.0));
   }
 
   public void click(Trigger button, Command command, Command command2) {

@@ -28,6 +28,8 @@ public final class Constants {
         // Constraints
         public static final double kMaxVelocity = 1;
         public static final double kMaxAcceleration = 1;
+
+        public static final int motorID = 11;
     }
 
     public class ArmConstants {
@@ -52,6 +54,8 @@ public final class Constants {
         // Constraints
         public static final double kMaxVelocity = 1;
         public static final double kMaxAcceleration = 1;
+
+        public static final int motorID = 12;
     }
 
 }

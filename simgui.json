@@ -11,27 +11,14 @@
     "Retained Values": {
       "open": false
     },
-    "Transitory Values": {
-      "open": false
-    },
     "transitory": {
-      "FMSInfo": {
-        "open": true
-      },
-      "LiveWindow": {
-        ".status": {
-          "open": true
-        },
-        "open": true
-      },
       "Shuffleboard": {
         ".metadata": {
           "open": true
         },
         ".recording": {
           "open": true
-        },
-        "open": true
+        }
       },
       "telemetry": {
         "Arm": {
@@ -39,6 +26,9 @@
           "stage1": {
             "open": true
           }
+        },
+        "Telescope": {
+          "open": true
         },
         "open": true,
         "telescope": {

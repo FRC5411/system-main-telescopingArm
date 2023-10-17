@@ -36,9 +36,9 @@ public class Arm extends SubsystemBase {
   // Returns calculations for FF and PID
   public double armCalc(DoubleSupplier setpointRadians, DoubleSupplier scale) {
     double FF = setArmFF(scale);
-    Telemetry.setValue("Arm/stage1/FF", FF);
+    Telemetry.setValue("Arm/FF", FF);
     double PID = setArmPID(setpointRadians);
-    Telemetry.setValue("Arm/stage1/PID", PID);
+    Telemetry.setValue("Arm/PID", PID);
     return FF + PID;
   }
 
@@ -47,9 +47,9 @@ public class Arm extends SubsystemBase {
     // Due to kg Formula being m * g * cos(theta) * l/2, the l variable is dynamic along with the theta variable
     // Due to the nature of a telescoping arm, the l variable is dynamic
     return armFF.calculate(
-      getProfile().position, 
-      getProfile().velocity, 
-      getProfile().acceleration, 
+      getProfileSetpoint().position, 
+      getProfileSetpoint().velocity, 
+      getProfileSetpoint().acceleration, 
       scale.getAsDouble());
   }
 
@@ -75,14 +75,13 @@ public class Arm extends SubsystemBase {
     return armPID.atGoal();
   }
 
-  public TProfile.State getProfile() {
+  public TProfile.State getProfileSetpoint() {
     return armPID.getSetpoint();
   }
 
   @Override
   public void periodic() {
     // Telemetry
-    Telemetry.setValue("Arm/setpoint", armMotor.get());
     Telemetry.setValue("Arm/temperature", armMotor.getMotorTemperature());
     Telemetry.setValue("Arm/outputVoltage", armMotor.getAppliedOutput());
     Telemetry.setValue("Arm/statorCurrent", armMotor.getOutputCurrent());

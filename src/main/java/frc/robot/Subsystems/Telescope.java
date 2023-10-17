@@ -20,12 +20,13 @@ public class Telescope extends SubsystemBase {
     // Uses configurations to set up the motor and encoder fromt he config file
     telescopeMotor = Configs.NEO(telescopeMotor, 19, false);
 
-    telescopeEncoder = Configs.relativeEncbore(telescopeEncoder, 5, 6, TelescopeConstants.METERPERROTATION);
+    telescopeEncoder = Configs.relativeEncbore(telescopeEncoder, 5, 6, TelescopeConstants.kMetersPerRotation);
 
-    telescopePID = new ProfilePIDController(TelescopeConstants.KP, TelescopeConstants.KI, TelescopeConstants.KD, 
-    new TProfile.Constraints(TelescopeConstants.MAXVELOCITY, TelescopeConstants.MAXACCELERATION));
+    telescopePID = new ProfilePIDController(TelescopeConstants.kP, TelescopeConstants.kI, TelescopeConstants.kD, 
+    new TProfile.Constraints(TelescopeConstants.kMaxVelocity, TelescopeConstants.kMaxAcceleration));
 
-    telescopeFF = new AngledElevatorFeedForward(TelescopeConstants.KS, TelescopeConstants.KG, TelescopeConstants.KV, TelescopeConstants.KA);
+    telescopeFF = new AngledElevatorFeedForward(
+      TelescopeConstants.kS, TelescopeConstants.kG, TelescopeConstants.kV, TelescopeConstants.kA);
   }
 
 
@@ -79,7 +80,7 @@ public class Telescope extends SubsystemBase {
 
   // Used to scale up the kg value in the feedforward for the Arm subsystem because physics
   public DoubleSupplier getScale() {
-    return () -> (getTelescopeEncoderMeters().getAsDouble() / TelescopeConstants.MIN_LENGTH);
+    return () -> (getTelescopeEncoderMeters().getAsDouble() / TelescopeConstants.kMinLength);
   }
 
   @Override

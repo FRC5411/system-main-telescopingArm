@@ -40,7 +40,7 @@ public class Telescope extends SubsystemBase {
     // Sets FF on telemetry
     Telemetry.setValue("Telescope/FF", FF);
     // Creates the PID for the telescope
-    double PID = setTelescopePID(setpointMeters, getTelescopeEncoderMeters());
+    double PID = setTelescopePID(setpointMeters);
     // Puts PID on telemetry
     Telemetry.setValue("Telescope/PID", PID);
 
@@ -56,31 +56,39 @@ public class Telescope extends SubsystemBase {
     return telescopeFF.calculate(getProfile().velocity, getProfile().acceleration, thetaRadians.getAsDouble());
   }
 
-  public double setTelescopePID(DoubleSupplier setpoint, DoubleSupplier measure) {
-    // Calulates the PID
+    // Calulates the PID, take DoubleSupplier measure out
+  public double setTelescopePID(DoubleSupplier setpoint) {
     return telescopePID.calculate(getTelescopeEncoderMeters().getAsDouble(), setpoint.getAsDouble());
   }
 
+  // Gives the voltage to the motors.
   public void setTelescope(double voltage) {
     telescopeMotor.setVoltage(voltage);
   }
 
+  // Resets the telescope to the current position
+  // of the encoder
   public void resetTelescopeProfile(double pos) {
     telescopePID.reset(pos);
   }
 
+  // Gets how much the encoder has ran
   public DoubleSupplier getTelescopeEncoderMeters() {
     return telescopeEncoder::getDistance;
   }
 
+  // Returns true if the error is within
+  // the specified tolerance
   public boolean atGoal() {
     return telescopePID.atGoal();
   }
 
+  // Gets the setpoint of the telescope PID
   public TProfile.State getProfile() {
     return telescopePID.getSetpoint();
   }
 
+  // kMinLength is currently a placeholder,
   public DoubleSupplier getScale() {
     return () -> (getTelescopeEncoderMeters().getAsDouble() / TelescopeConstants.kMinLength);
   }

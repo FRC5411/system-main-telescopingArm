@@ -72,8 +72,10 @@ public class TProfile {
     public double acceleration;
     public double velocity;
 
-    public State() {}
+    public State() {
 
+    }
+    
     public State(double position, double velocity, double acceleration) {
       this.position = position;
       this.velocity = velocity;
